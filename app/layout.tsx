@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+import { ThemeProvider } from "@/packages/theme-switcher/context";
+import { myThemes } from "@/packages/theme-switcher/my-theme";
+
 
 export const metadata: Metadata = {
   title: "Reactive Switcher - A theme switcher for React apps",
@@ -14,8 +17,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        {children}
+      <body suppressHydrationWarning>
+        <ThemeProvider themes={myThemes} defaultTheme="light">
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
