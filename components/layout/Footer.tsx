@@ -1,138 +1,200 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { Icons } from "../icons";
 
 export function Footer() {
+  const currentYear = new Date().getFullYear();
+
+  const footerLinks = {
+    product: [
+      { label: "Documentation", href: "/docs" },
+      { label: "Showcase", href: "#showcase" },
+      { label: "Features", href: "#features" },
+      {
+        label: "Changelog",
+        href: "https://github.com/poyrazavsever/reactive-switcher/releases",
+        external: true,
+      },
+    ],
+    resources: [
+      {
+        label: "GitHub",
+        href: "https://github.com/poyrazavsever/reactive-switcher",
+        external: true,
+      },
+      {
+        label: "NPM Package",
+        href: "https://www.npmjs.com/package/reactive-switcher",
+        external: true,
+      },
+      { label: "Blog", href: "https://poyrazavsever.com/blog", external: true },
+    ],
+    community: [
+      {
+        label: "Twitter",
+        href: "https://twitter.com/poyrazavsever",
+        external: true,
+      },
+      {
+        label: "Buy me a coffee",
+        href: "https://www.buymeacoffee.com/poyrazavsever",
+        external: true,
+      },
+    ],
+  };
+
   return (
-    <footer className="border-t border-surface-200 bg-surface-50/50 backdrop-blur-sm mt-auto">
-      {/* Promo Banner - Reactive Image */}
-      <div className="w-full bg-gradient-to-r from-indigo-500/5 via-purple-500/5 to-pink-500/5 border-b border-surface-200/50">
-        <div className="max-w-7xl mx-auto px-6 py-3 flex flex-col sm:flex-row items-center justify-center gap-2 text-sm text-center">
-          <span className="text-secondary">
-            Görsellerinizi optimize etmek için harika bir çözüm mü arıyorsunuz?
-          </span>
-          <a
-            href="https://www.npmjs.com/package/reactive-image"
-            target="_blank"
-            className="inline-flex items-center gap-1 font-semibold text-primary hover:text-primary-600 transition-colors group"
-          >
-            reactive-image kütüphanesine göz atın
-            <Icons.LinkArrow className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-          </a>
-        </div>
+    <footer className="relative border-t border-surface-200/50 bg-gradient-to-b from-surface-50/50 to-background">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 -z-10 opacity-50">
+        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-[120px]" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
-          {/* Logo Column */}
-          <div className="col-span-2 md:col-span-1 space-y-4">
-            <div className="w-10 h-10 relative rounded-xl overflow-hidden grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500">
-              <Image
-                src="/logo/Logo.png"
-                alt="Logo"
-                fill
-                className="object-cover"
-              />
-            </div>
-            <p className="text-sm text-secondary leading-relaxed">
-              Modern web uygulamaları için geliştirilmiş, performans odaklı tema
-              yönetim sistemi.
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        {/* Main Footer Content */}
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 lg:gap-12 mb-12">
+          {/* Brand Column */}
+          <div className="col-span-2">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-3 mb-6 group"
+            >
+              <div className="relative w-10 h-10 rounded-xl overflow-hidden shadow-lg shadow-primary/10 group-hover:shadow-primary/20 transition-shadow">
+                <Image
+                  src="/logo/Logo.png"
+                  alt="Reactive Switcher"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div>
+                <span className="text-lg font-bold text-foreground">
+                  Reactive
+                </span>
+                <span className="text-lg font-bold text-primary">Switcher</span>
+              </div>
+            </Link>
+            <p className="text-secondary text-sm leading-relaxed mb-6 max-w-sm">
+              Type-safe, modular, and instant theme switching for React &
+              Tailwind CSS v4. Zero runtime overhead.
             </p>
+            {/* Social Links */}
+            <div className="flex items-center gap-3">
+              <a
+                href="https://github.com/poyrazavsever/reactive-switcher"
+                target="_blank"
+                className="w-10 h-10 rounded-xl bg-surface-100 border border-surface-200/50 flex items-center justify-center text-secondary hover:text-foreground hover:bg-surface-200 transition-all"
+              >
+                <Icons.Github className="w-5 h-5" />
+              </a>
+              <a
+                href="https://twitter.com/poyrazavsever"
+                target="_blank"
+                className="w-10 h-10 rounded-xl bg-surface-100 border border-surface-200/50 flex items-center justify-center text-secondary hover:text-foreground hover:bg-surface-200 transition-all"
+              >
+                <Icons.Twitter className="w-5 h-5" />
+              </a>
+              <a
+                href="https://www.buymeacoffee.com/poyrazavsever"
+                target="_blank"
+                className="w-10 h-10 rounded-xl bg-surface-100 border border-surface-200/50 flex items-center justify-center text-secondary hover:text-amber-500 hover:bg-amber-50 transition-all"
+              >
+                <Icons.Coffee className="w-5 h-5" />
+              </a>
+            </div>
           </div>
 
-          {/* Links 1 */}
-          <div className="space-y-4">
-            <h4 className="font-semibold text-foreground">Project</h4>
-            <ul className="space-y-2 text-sm text-secondary">
-              <li>
-                <a
-                  href="#docs"
-                  className="hover:text-primary transition-colors"
-                >
-                  Documentation
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#showcase"
-                  className="hover:text-primary transition-colors"
-                >
-                  Showcase
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://github.com/poyrazavsever/reactive-switcher"
-                  target="_blank"
-                  className="hover:text-primary transition-colors"
-                >
-                  GitHub
-                </a>
-              </li>
+          {/* Product Links */}
+          <div>
+            <h4 className="font-semibold text-foreground mb-4">Product</h4>
+            <ul className="space-y-3">
+              {footerLinks.product.map((link) => (
+                <li key={link.label}>
+                  {link.external ? (
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      className="text-sm text-secondary hover:text-primary transition-colors flex items-center gap-1"
+                    >
+                      {link.label}
+                      <Icons.External className="w-3 h-3 opacity-50" />
+                    </a>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      className="text-sm text-secondary hover:text-primary transition-colors"
+                    >
+                      {link.label}
+                    </Link>
+                  )}
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Links 2 */}
-          <div className="space-y-4">
-            <h4 className="font-semibold text-foreground">Community</h4>
-            <ul className="space-y-2 text-sm text-secondary">
-              <li>
-                <a
-                  href="https://poyrazavsever.com/blog"
-                  target="_blank"
-                  className="hover:text-primary transition-colors flex items-center gap-1"
-                >
-                  Blog <Icons.External className="w-3 h-3" />
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.buymeacoffee.com/poyrazavsever"
-                  target="_blank"
-                  className="hover:text-primary transition-colors"
-                >
-                  Buy me a coffee
-                </a>
-              </li>
+          {/* Resources Links */}
+          <div>
+            <h4 className="font-semibold text-foreground mb-4">Resources</h4>
+            <ul className="space-y-3">
+              {footerLinks.resources.map((link) => (
+                <li key={link.label}>
+                  <a
+                    href={link.href}
+                    target="_blank"
+                    className="text-sm text-secondary hover:text-primary transition-colors flex items-center gap-1"
+                  >
+                    {link.label}
+                    <Icons.External className="w-3 h-3 opacity-50" />
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Links 3 - Meta */}
-          <div className="space-y-4">
-            <h4 className="font-semibold text-foreground">Legal</h4>
-            <ul className="space-y-2 text-sm text-secondary">
-              <li>
-                <span className="cursor-not-allowed opacity-50">
-                  Privacy Policy
-                </span>
-              </li>
-              <li>
-                <span className="cursor-not-allowed opacity-50">
-                  Terms of Service
-                </span>
-              </li>
-              <li>
-                <span className="text-xs border border-surface-200 px-2 py-1 rounded bg-surface-100">
-                  MIT License
-                </span>
-              </li>
+          {/* Community Links */}
+          <div>
+            <h4 className="font-semibold text-foreground mb-4">Community</h4>
+            <ul className="space-y-3">
+              {footerLinks.community.map((link) => (
+                <li key={link.label}>
+                  <a
+                    href={link.href}
+                    target="_blank"
+                    className="text-sm text-secondary hover:text-primary transition-colors flex items-center gap-1"
+                  >
+                    {link.label}
+                    <Icons.External className="w-3 h-3 opacity-50" />
+                  </a>
+                </li>
+              ))}
             </ul>
+            {/* MIT Badge */}
+            <div className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/20 text-green-600 text-xs font-medium">
+              <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
+              MIT License
+            </div>
           </div>
         </div>
 
-        <div className="pt-8 border-t border-surface-200 flex flex-col sm:flex-row justify-between items-center gap-4">
+        {/* Bottom Bar */}
+        <div className="pt-8 border-t border-surface-200/50 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-sm text-secondary">
-            © {new Date().getFullYear()} Poyraz Avsever. All rights reserved.
+            © {currentYear} Poyraz Avsever. Built with{" "}
+            <Icons.Heart className="w-4 h-4 inline text-red-500" /> using
+            Next.js & Tailwind CSS
           </p>
-          <div className="flex gap-4">
+          <div className="flex items-center gap-4 text-sm text-secondary">
             <a
-              href="https://github.com/poyrazavsever"
-              className="text-secondary hover:text-foreground transition-colors"
+              href="https://github.com/poyrazavsever/reactive-switcher"
+              target="_blank"
+              className="hover:text-primary transition-colors flex items-center gap-1"
             >
-              <Icons.Github className="w-5 h-5" />
+              <Icons.Star className="w-4 h-4" />
+              Star on GitHub
             </a>
-            {/* Buraya Twitter/X veya Linkedin ikonu da eklenebilir */}
           </div>
         </div>
       </div>

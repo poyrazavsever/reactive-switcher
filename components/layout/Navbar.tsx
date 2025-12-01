@@ -1,6 +1,8 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Icons } from "../icons";
 import { Lang } from "@/landing/content";
 import { useTheme } from "@/packages/theme-switcher/src";
@@ -12,101 +14,197 @@ interface NavbarProps {
 
 export function Navbar({ lang, setLang }: NavbarProps) {
   const { theme, setTheme, themes } = useTheme();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const NavLink = ({ href, children, external = false, icon: Icon }: any) => (
-    <a
-      href={href}
-      target={external ? "_blank" : undefined}
-      className="group flex items-center gap-1.5 text-sm font-medium text-secondary hover:text-foreground transition-colors"
-    >
-      {children}
-      {external && (
-        <Icons.External className="opacity-50 group-hover:opacity-100 transition-opacity w-3 h-3" />
-      )}
-      {Icon && <Icon className="w-4 h-4" />}
-    </a>
-  );
+  // Scroll listener for navbar background
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const navLinks = [
+    { href: "#features", label: lang === "en" ? "Features" : "Özellikler" },
+    { href: "#showcase", label: lang === "en" ? "Showcase" : "Demo" },
+    { href: "/docs", label: lang === "en" ? "Docs" : "Döküman" },
+  ];
+
+  const themeIcons: Record<string, React.ReactNode> = {
+    light: <Icons.Sun className="w-4 h-4" />,
+    dark: <Icons.Moon className="w-4 h-4" />,
+    ocean: <Icons.Waves className="w-4 h-4" />,
+  };
 
   return (
-    <nav className="fixed top-0 w-full z-50 border-b border-surface-200/40 bg-background/60 backdrop-blur-xl supports-backdrop-filter:bg-background/60">
-      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        {/* Logo Area - Text Olmadan */}
-        <div className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
-          <div className="w-9 h-9 relative rounded-lg overflow-hidden shadow-sm">
-            <Image
-              src="/logo/Logo.png"
-              alt="Reactive Switcher Logo"
-              fill
-              className="object-cover"
-              sizes="36px"
-            />
-          </div>
-          <span className="text-lg font-bold bg-clip-text text-transparent bg-linear-to-r from-pink-500 via-yellow-500 to-green-500">
-            Reactive Switcher
-          </span>
-        </div>
+    <>
+      <nav
+        className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+          isScrolled
+            ? "bg-background/80 backdrop-blur-xl border-b border-surface-200/50 shadow-sm"
+            : "bg-transparent"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16 lg:h-20">
+            {/* Logo */}
+            <Link href="/" className="flex items-center gap-3 group">
+              <div className="relative w-10 h-10 rounded-xl overflow-hidden shadow-lg shadow-primary/20 group-hover:shadow-primary/40 transition-shadow duration-300">
+                <Image
+                  src="/logo/Logo.png"
+                  alt="Reactive Switcher"
+                  fill
+                  className="object-cover"
+                  sizes="40px"
+                />
+              </div>
+              <div className="hidden sm:block">
+                <span className="text-lg font-bold text-foreground">
+                  Reactive
+                </span>
+                <span className="text-lg font-bold text-primary">Switcher</span>
+              </div>
+            </Link>
 
-        {/* Navigation Links */}
-        <div className="hidden md:flex items-center gap-8">
-          <NavLink href="#docs">Docs</NavLink>
-          <NavLink href="#showcase">Showcase</NavLink>
-          <NavLink href="https://poyrazavsever.com/blog" external>
-            Blog
-          </NavLink>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="flex items-center gap-3">
-          <a
-            href="https://www.buymeacoffee.com/poyrazavsever"
-            target="_blank"
-            className="hidden sm:flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-amber-700 bg-amber-50 dark:bg-amber-500 dark:text-amber-50 rounded-full hover:bg-amber-500 dark:hover:bg-amber-500/50 transition-colors"
-          >
-            <Icons.Coffee className="w-4 h-4" />
-            <span className="hidden lg:inline">Buy me a coffee</span>
-          </a>
-
-          <a
-            href="https://github.com/poyrazavsever/reactive-switcher"
-            target="_blank"
-            className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-foreground bg-surface-100 hover:bg-surface-200 border border-surface-200 rounded-full transition-colors"
-          >
-            <Icons.Github className="w-4 h-4" />
-            <span className="hidden sm:inline">Star</span>
-          </a>
-
-          <div className="w-px h-6 bg-surface-200 mx-1" />
-
-          {/* Theme Switcher */}
-          <div className="hidden sm:flex items-center gap-1 bg-surface-100 rounded-full p-1 border border-surface-200">
-            {themes.map((t) => (
-              <button
-                key={t}
-                onClick={() => setTheme(t)}
-                className={`w-8 h-8 flex items-center justify-center rounded-full transition-all ${
-                  theme === t
-                    ? "bg-primary text-white shadow-sm"
-                    : "text-secondary hover:text-foreground hover:bg-surface-200"
-                }`}
-                title={t.charAt(0).toUpperCase() + t.slice(1)}
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex items-center gap-1">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="relative px-4 py-2 text-sm font-medium text-secondary hover:text-foreground transition-colors group"
+                >
+                  {link.label}
+                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary rounded-full group-hover:w-1/2 transition-all duration-300" />
+                </Link>
+              ))}
+              <a
+                href="https://github.com/poyrazavsever/reactive-switcher"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative px-4 py-2 text-sm font-medium text-secondary hover:text-foreground transition-colors group flex items-center gap-1.5"
               >
-                {t === "light" && <Icons.Sun className="w-4 h-4" />}
-                {t === "dark" && <Icons.Moon className="w-4 h-4" />}
-                {t === "ocean" && <Icons.Waves className="w-4 h-4" />}
+                GitHub
+                <Icons.External className="w-3 h-3 opacity-50" />
+                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary rounded-full group-hover:w-1/2 transition-all duration-300" />
+              </a>
+            </div>
+
+            {/* Right Actions */}
+            <div className="flex items-center gap-2 sm:gap-3">
+              {/* Theme Switcher - Desktop */}
+              <div className="hidden sm:flex items-center p-1 bg-surface-100/80 backdrop-blur-sm rounded-full border border-surface-200/50">
+                {themes.map((t) => (
+                  <button
+                    key={t}
+                    onClick={() => setTheme(t)}
+                    className={`relative w-9 h-9 flex items-center justify-center rounded-full transition-all duration-300 ${
+                      theme === t
+                        ? "text-primary-foreground"
+                        : "text-secondary hover:text-foreground"
+                    }`}
+                    title={t.charAt(0).toUpperCase() + t.slice(1)}
+                  >
+                    {theme === t && (
+                      <span className="absolute inset-0 bg-primary rounded-full shadow-lg shadow-primary/30" />
+                    )}
+                    <span className="relative z-10">{themeIcons[t]}</span>
+                  </button>
+                ))}
+              </div>
+
+              {/* Language Toggle */}
+              <button
+                onClick={() => setLang(lang === "en" ? "tr" : "en")}
+                className="w-9 h-9 flex items-center justify-center rounded-full bg-surface-100/80 backdrop-blur-sm border border-surface-200/50 text-sm font-bold text-primary hover:bg-surface-200/80 transition-colors"
+              >
+                {lang === "en" ? "TR" : "EN"}
               </button>
-            ))}
+
+              {/* GitHub Star - Desktop */}
+              <a
+                href="https://github.com/poyrazavsever/reactive-switcher"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden md:flex items-center gap-2 px-4 py-2 text-sm font-medium bg-foreground text-background rounded-full hover:opacity-90 transition-opacity"
+              >
+                <Icons.Github className="w-4 h-4" />
+                <span>Star on GitHub</span>
+              </a>
+
+              {/* Mobile Menu Button */}
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="lg:hidden w-9 h-9 flex items-center justify-center rounded-full bg-surface-100/80 backdrop-blur-sm border border-surface-200/50 text-foreground"
+              >
+                {isMobileMenuOpen ? (
+                  <Icons.Close className="w-5 h-5" />
+                ) : (
+                  <Icons.Menu className="w-5 h-5" />
+                )}
+              </button>
+            </div>
           </div>
-
-          <div className="w-px h-6 bg-surface-200 mx-1" />
-
-          <button
-            onClick={() => setLang(lang === "en" ? "tr" : "en")}
-            className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-surface-100 transition-colors font-mono text-sm font-bold text-primary"
-          >
-            {lang === "en" ? "TR" : "EN"}
-          </button>
         </div>
-      </div>
-    </nav>
+
+        {/* Mobile Menu */}
+        <div
+          className={`lg:hidden overflow-hidden transition-all duration-300 ${
+            isMobileMenuOpen
+              ? "max-h-96 border-b border-surface-200/50"
+              : "max-h-0"
+          }`}
+        >
+          <div className="px-4 py-4 bg-background/95 backdrop-blur-xl space-y-2">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block px-4 py-3 text-base font-medium text-foreground hover:bg-surface-100 rounded-xl transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
+
+            {/* Mobile Theme Switcher */}
+            <div className="px-4 py-3">
+              <p className="text-xs font-medium text-secondary uppercase tracking-wider mb-3">
+                {lang === "en" ? "Theme" : "Tema"}
+              </p>
+              <div className="flex items-center gap-2">
+                {themes.map((t) => (
+                  <button
+                    key={t}
+                    onClick={() => setTheme(t)}
+                    className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl transition-all ${
+                      theme === t
+                        ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"
+                        : "bg-surface-100 text-secondary hover:text-foreground"
+                    }`}
+                  >
+                    {themeIcons[t]}
+                    <span className="text-sm font-medium capitalize">{t}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Mobile GitHub Button */}
+            <a
+              href="https://github.com/poyrazavsever/reactive-switcher"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 mx-4 py-3 text-sm font-medium bg-foreground text-background rounded-xl"
+            >
+              <Icons.Github className="w-4 h-4" />
+              <span>Star on GitHub</span>
+            </a>
+          </div>
+        </div>
+      </nav>
+    </>
   );
 }

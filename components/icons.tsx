@@ -48,8 +48,15 @@ export const Icons = {
   Waves: (props: any) => <IconWrapper icon="lucide:waves" {...props} />,
   Monitor: (props: any) => <IconWrapper icon="lucide:monitor" {...props} />,
 
-  // Steps
+  // Steps & Features
   Code: (props: any) => <IconWrapper icon="lucide:code-2" {...props} />,
   Layers: (props: any) => <IconWrapper icon="lucide:layers" {...props} />,
   Play: (props: any) => <IconWrapper icon="lucide:play-circle" {...props} />,
+  Database: (props: any) => <IconWrapper icon="lucide:database" {...props} />,
+  Settings: (props: any) => <IconWrapper icon="lucide:settings" {...props} />,
+  Package: (props: any) => <IconWrapper icon="lucide:package" {...props} />,
+  Terminal: (props: any) => <IconWrapper icon="lucide:terminal" {...props} />,
+  FileCode: (props: any) => <IconWrapper icon="lucide:file-code" {...props} />,
+  Book: (props: any) => <IconWrapper icon="lucide:book-open" {...props} />,
+  Heart: (props: any) => <IconWrapper icon="lucide:heart" {...props} />,
 };
