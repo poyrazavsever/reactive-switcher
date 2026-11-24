@@ -294,7 +294,7 @@ const themes: ThemesConfig = {
 
 ## 🌐 Demo
 
-Check out the live demo: [reactive-switcher.vercel.app](https://reactive-switcher.vercel.app)
+Check out the live demo: [reactive-switcher.poyrazavsever.com](https://reactive-switcher.poyrazavsever.com)
 
 ---
 
@@ -510,7 +510,7 @@ const {
 
 ## 🌐 Demo
 
-Canlı demoyu inceleyin: [reactive-switcher.vercel.app](https://reactive-switcher.vercel.app)
+Canlı demoyu inceleyin: [reactive-switcher.poyrazavsever.com](https://reactive-switcher.poyrazavsever.com)
 
 ---
 
